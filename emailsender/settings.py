@@ -28,7 +28,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG')
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "matthias22m.pythonanywhere.com"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "matthias22m.pythonanywhere.com","192.168.184.132"]
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGIN = [
+    'http://localhost:5173',
+    'http://192.168.184.132:5173',    
+    "http://127.0.0.1:5173"
+]
 
 
 # Application definition
