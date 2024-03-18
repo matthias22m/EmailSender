@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import EmailSerializer
+import os
 
 class EmailAPIView(APIView):
     def post(self, request):
@@ -19,17 +20,14 @@ class EmailAPIView(APIView):
                 msg = EmailMessage(
                     subject=email.subject,
                     body='Full Name: '+email.full_name+'\n'+'From: '+email.from_email+'\n'+'Phone Number: '+email.phone_number+'\n'+email.body,
-                    to=[email.to_email]
+                    to=[os.environ.get('EMAIL_HOST_USER')]
                 )
                 msg.send()
                 msg2.send()
-                # return Response({'status': 'Email sent'}, status=status.HTTP_200_OK)
-                return 0
+                return Response({'status': 'Email sent'}, status=status.HTTP_200_OK)
             except:
-                # return Response({'status': 'Email sending failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-                return 1
+                return Response({'status': 'Email sending failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            return 2
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

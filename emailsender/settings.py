@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(os.path.join(BASE_DIR/".eVar",".env"))
+load_dotenv(os.path.join(BASE_DIR/".eVar", ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -28,14 +28,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG')
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "matthias22m.pythonanywhere.com","192.168.184.132"]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split()
 CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ALLOWED_ORIGIN = [
-    'http://localhost:5173',
-    'http://192.168.184.132:5173',    
-    "http://127.0.0.1:5173"
-]
+CORS_ALLOWED_ORIGIN = os.environ.get('CORS_ALLOWED_ORIGIN').split()
 
 
 # Application definition
@@ -47,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'rest_framework_swagger',
     'emailapp',
@@ -55,6 +52,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -85,7 +83,6 @@ WSGI_APPLICATION = 'emailsender.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 
 
 # Replace it with your DATABASES.
@@ -149,5 +146,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'pass22reset@gmail.com'
-EMAIL_HOST_PASSWORD = 'vapszwhhddetcneg'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
